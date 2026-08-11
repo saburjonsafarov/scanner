@@ -12,7 +12,8 @@ kotlin {
 
     androidLibrary {
         namespace = "com.ssh.scanner.camera"
-        compileSdk = 36
+        // 37 — требование androidx.lifecycle 2.11.0 (проверка AAR-метаданных, прогон CI №7).
+        compileSdk = 37
         minSdk = 24
     }
     iosArm64()

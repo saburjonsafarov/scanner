@@ -12,7 +12,7 @@ plugins {
 
 android {
     namespace = "com.ssh.scanner.sample"
-    compileSdk = 36
+    compileSdk = 37
 
     defaultConfig {
         applicationId = "com.ssh.scanner.sample"
