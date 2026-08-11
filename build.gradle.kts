@@ -1,14 +1,16 @@
-// KGP и Compose-плагины объявлены в корне с `apply false` намеренно: так их классы живут
-// в одном родительском класслоадере для всех модулей. Без этого Gradle поднимает KGP отдельным
-// лоадером на каждый уникальный набор плагинов модуля, и общий build-сервис KGP падает
-// ClassCastException «SwiftPMLockTaskAggregationBuildService … cannot be cast to …» —
-// поймано прогоном CI №3. Все три плагина лежат на Maven Central, поэтому гейту
-// -Pscanner.targets=core они не мешают. AGP здесь НЕТ сознательно: он резолвится только
-// с Google Maven, а core-гейт обязан конфигурироваться без него.
+// В корне объявлен РОВНО один плагин, и это выверено тремя красными прогонами CI:
+//
+// - KGP обязан быть здесь: без него Gradle поднимает KGP отдельным класслоадером на каждый
+//   уникальный набор плагинов модуля, и общий build-сервис KGP падает ClassCastException
+//   «SwiftPMLockTaskAggregationBuildService … cannot be cast to …» (прогон №3).
+// - AGP и Compose-плагинов здесь быть НЕ должно: корневой лоадер не видит дочерние, поэтому
+//   CMP-плагин из корня не находит классы AGP, живущего в лоадере модуля, —
+//   ClassNotFoundException «KotlinMultiplatformAndroidComponentsExtension» (прогон №6).
+//   CMP живёт только в scanner-ui и сэмпле: один модульный лоадер, где видны и KGP (родитель),
+//   и AGP (сосед по classpath). AGP вдобавок резолвится только с Google Maven, а гейт
+//   -Pscanner.targets=core обязан конфигурироваться без него.
 plugins {
     alias(libs.plugins.kotlin.multiplatform) apply false
-    alias(libs.plugins.kotlin.compose) apply false
-    alias(libs.plugins.compose.multiplatform) apply false
 }
 
 allprojects {
