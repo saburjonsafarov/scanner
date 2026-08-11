@@ -1,6 +1,15 @@
-// Плагины намеренно не объявляются здесь даже с `apply false`: объявление в корне заставляет
-// Gradle резолвить их при любой сборке, а AGP и Compose недоступны, когда собирается только ядро
-// (-Pscanner.targets=core). Каждый модуль подключает то, что ему нужно, сам.
+// KGP и Compose-плагины объявлены в корне с `apply false` намеренно: так их классы живут
+// в одном родительском класслоадере для всех модулей. Без этого Gradle поднимает KGP отдельным
+// лоадером на каждый уникальный набор плагинов модуля, и общий build-сервис KGP падает
+// ClassCastException «SwiftPMLockTaskAggregationBuildService … cannot be cast to …» —
+// поймано прогоном CI №3. Все три плагина лежат на Maven Central, поэтому гейту
+// -Pscanner.targets=core они не мешают. AGP здесь НЕТ сознательно: он резолвится только
+// с Google Maven, а core-гейт обязан конфигурироваться без него.
+plugins {
+    alias(libs.plugins.kotlin.multiplatform) apply false
+    alias(libs.plugins.kotlin.compose) apply false
+    alias(libs.plugins.compose.multiplatform) apply false
+}
 
 allprojects {
     group = "com.ssh.scanner"
