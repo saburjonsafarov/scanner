@@ -60,7 +60,7 @@ jobs:
           retention-days: 7
 
   android:
-    name: Android (release-библиотеки + APK сэмпла)
+    name: Android (release-библиотеки)
     runs-on: ubuntu-latest
     needs: core
     steps:
@@ -76,23 +76,14 @@ jobs:
       # Android SDK предустановлен на GitHub-hosted ubuntu-раннерах; ставить его руками
       # нужно только на self-hosted и на macOS (урок lessons-ci + arm64-образы без SDK).
       #
-      # Release-варианты библиотек собираются намеренно: публикуются они
-      # (publishLibraryVariants("release")), и release-only поломка не должна впервые
-      # вылезать на теге.
-      - name: Сборка release-библиотек и APK сэмпла
+      # Собираются release-варианты библиотек: публикуются именно они. Сэмпл в CI
+      # не собирается (-Pscanner.withSample=false) — причина в settings.gradle.kts.
+      - name: Сборка release-библиотек
         run: >
-          ./gradlew
+          ./gradlew -Pscanner.withSample=false
           :scanner-camera:assembleRelease
           :scanner-ui:assembleRelease
-          :sample-android:assembleDebug
           --stacktrace
-
-      - uses: actions/upload-artifact@v4
-        with:
-          name: sample-debug-apk
-          path: sample-android/build/outputs/apk/debug/*.apk
-          if-no-files-found: error
-          retention-days: 14
 
   ios:
     name: iOS (тесты симулятора + XCFramework + смоук публикации)
@@ -114,22 +105,22 @@ jobs:
       - uses: gradle/actions/setup-gradle@v4
 
       - name: Тесты ядра на iOS-симуляторе
-        run: ./gradlew :scanner-core:iosSimulatorArm64Test --stacktrace
+        run: ./gradlew -Pscanner.withSample=false :scanner-core:iosSimulatorArm64Test --stacktrace
 
       - name: iOS-компиляция camera и ui
         run: >
-          ./gradlew
+          ./gradlew -Pscanner.withSample=false
           :scanner-camera:compileKotlinIosSimulatorArm64
           :scanner-ui:compileKotlinIosSimulatorArm64
           --stacktrace
 
       - name: Сборка XCFramework
-        run: ./gradlew :scanner-core:assembleScannerCoreReleaseXCFramework --stacktrace
+        run: ./gradlew -Pscanner.withSample=false :scanner-core:assembleScannerCoreReleaseXCFramework --stacktrace
 
       # Смоук релизного пути: та же публикация, что и на теге, только в локальный каталог.
       # Ловит "модуль без maven-publish", битые POM и несобираемые klib'ы до релиза.
       - name: Смоук публикации (publishToMavenLocal)
-        run: ./gradlew publishToMavenLocal --stacktrace
+        run: ./gradlew -Pscanner.withSample=false publishToMavenLocal --stacktrace
 
       - name: Отчёт о тестах при падении
         if: failure()
