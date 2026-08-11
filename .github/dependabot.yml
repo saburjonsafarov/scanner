@@ -1,0 +1,21 @@
+# Dependabot держит в актуальном состоянии экшены CI и зависимости Gradle.
+# Для экшенов это часть правила безопасности из lessons-ci: пин + автоматическое обновление.
+version: 2
+updates:
+  - package-ecosystem: github-actions
+    directory: /
+    schedule:
+      interval: weekly
+
+  - package-ecosystem: gradle
+    directory: /
+    schedule:
+      interval: weekly
+    open-pull-requests-limit: 5
+    # Связанные артефакты обновляются одним PR: kotlin и его compose-плагин обязаны совпадать
+    # по версии, androidx.camera выходит синхронной пачкой — раздельные PR были бы заведомо красными.
+    groups:
+      kotlin:
+        patterns: ["org.jetbrains.kotlin*"]
+      androidx-camera:
+        patterns: ["androidx.camera*"]

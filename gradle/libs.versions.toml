@@ -1,0 +1,34 @@
+[versions]
+# Сверено с живым индексом Maven Central 11.08.2026.
+kotlin = "2.4.10"
+coroutines = "1.11.0"
+
+# ⚠️ TODO(Saburjon): версии ниже НЕ сверены с индексом — репозиторий Google (dl.google.com)
+# недоступен из окружения, где писался этот код. Проверить перед первой Android/iOS-сборкой.
+agp = "9.2.1"                 # значение из рабочего тулчейна compose-graph
+composeMultiplatform = "1.11.1"  # значение из рабочего тулчейна compose-graph
+androidxCamera = "1.4.2"      # не сверено ни с чем — проверить обязательно
+androidxActivity = "1.11.0"   # не сверено ни с чем — проверить обязательно
+androidxCore = "1.16.0"       # не сверено ни с чем — проверить обязательно
+
+# Сверено с Maven Central 11.08.2026 (JetBrains-редистрибуция для Compose Multiplatform).
+jetbrainsLifecycle = "2.11.0"
+
+[libraries]
+coroutines-core = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-core", version.ref = "coroutines" }
+coroutines-test = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-test", version.ref = "coroutines" }
+
+androidx-camera-core = { module = "androidx.camera:camera-core", version.ref = "androidxCamera" }
+androidx-camera-camera2 = { module = "androidx.camera:camera-camera2", version.ref = "androidxCamera" }
+androidx-camera-lifecycle = { module = "androidx.camera:camera-lifecycle", version.ref = "androidxCamera" }
+androidx-camera-view = { module = "androidx.camera:camera-view", version.ref = "androidxCamera" }
+androidx-activity-compose = { module = "androidx.activity:activity-compose", version.ref = "androidxActivity" }
+androidx-core-ktx = { module = "androidx.core:core-ktx", version.ref = "androidxCore" }
+jetbrains-lifecycle-runtime-compose = { module = "org.jetbrains.androidx.lifecycle:lifecycle-runtime-compose", version.ref = "jetbrainsLifecycle" }
+
+[plugins]
+kotlin-multiplatform = { id = "org.jetbrains.kotlin.multiplatform", version.ref = "kotlin" }
+kotlin-compose = { id = "org.jetbrains.kotlin.plugin.compose", version.ref = "kotlin" }
+android-library = { id = "com.android.library", version.ref = "agp" }
+android-application = { id = "com.android.application", version.ref = "agp" }
+compose-multiplatform = { id = "org.jetbrains.compose", version.ref = "composeMultiplatform" }
