@@ -1,23 +1,13 @@
-// ⚠️ Модуль НЕ СОБРАН: писался в окружении без Android SDK.
+// Сэмпл — чистый Android-модуль, НЕ Kotlin Multiplatform.
+//
+// Это не упрощение, а требование AGP 9: Kotlin в нём встроен, и связка
+// `com.android.application` + `org.jetbrains.kotlin.multiplatform` падает на конфигурации
+// (ClassCastException в AgpWithBuiltInKotlinAppliedCheck — поймано первым прогоном CI).
+// Compose-зависимости остаются через DSL плагина Compose Multiplatform.
 plugins {
     alias(libs.plugins.android.application)
-    alias(libs.plugins.kotlin.multiplatform)
-    alias(libs.plugins.compose.multiplatform)
     alias(libs.plugins.kotlin.compose)
-}
-
-kotlin {
-    androidTarget()
-
-    sourceSets {
-        androidMain.dependencies {
-            implementation(project(":scanner-ui"))
-            implementation(compose.runtime)
-            implementation(compose.foundation)
-            implementation(compose.material3)
-            implementation(libs.androidx.activity.compose)
-        }
-    }
+    alias(libs.plugins.compose.multiplatform)
 }
 
 android {
@@ -36,4 +26,12 @@ android {
         sourceCompatibility = JavaVersion.VERSION_17
         targetCompatibility = JavaVersion.VERSION_17
     }
+}
+
+dependencies {
+    implementation(project(":scanner-ui"))
+    implementation(compose.runtime)
+    implementation(compose.foundation)
+    implementation(compose.material3)
+    implementation(libs.androidx.activity.compose)
 }
