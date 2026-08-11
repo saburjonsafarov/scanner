@@ -43,7 +43,7 @@ jobs:
           distribution: temurin
           java-version: 21
 
-      - uses: gradle/actions/setup-gradle@v4
+      - uses: gradle/actions/setup-gradle@v6
 
       # Гейт -Pscanner.targets=core оставляет в сборке одно ядро: джоба не зависит
       # ни от Android SDK, ни от Apple-тулчейна и потому падает только по делу.
@@ -71,7 +71,7 @@ jobs:
           distribution: temurin
           java-version: 21
 
-      - uses: gradle/actions/setup-gradle@v4
+      - uses: gradle/actions/setup-gradle@v6
 
       # Android SDK предустановлен на GitHub-hosted ubuntu-раннерах; ставить его руками
       # нужно только на self-hosted и на macOS (урок lessons-ci + arm64-образы без SDK).
@@ -102,7 +102,7 @@ jobs:
       # TODO(Saburjon): запинить по SHA вместе с остальными экшенами.
       - uses: android-actions/setup-android@v3
 
-      - uses: gradle/actions/setup-gradle@v4
+      - uses: gradle/actions/setup-gradle@v6
 
       - name: Тесты ядра на iOS-симуляторе
         run: ./gradlew -Pscanner.withSample=false :scanner-core:iosSimulatorArm64Test --stacktrace

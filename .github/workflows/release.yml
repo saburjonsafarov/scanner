@@ -43,7 +43,7 @@ jobs:
       # На macOS arm64-образах GitHub нет Android SDK, а publish собирает и Android-модули.
       - uses: android-actions/setup-android@v3
 
-      - uses: gradle/actions/setup-gradle@v4
+      - uses: gradle/actions/setup-gradle@v6
 
       # Имя тега — внешний вход: в run оно попадает только через env (script injection, lessons-ci).
       # Версия валидируется: тег `v` или `vfoo` не должен уехать в Packages пустой или мусорной версией.
