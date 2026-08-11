@@ -1,6 +1,9 @@
 [versions]
-# Сверено с живым индексом Maven Central 11.08.2026.
-kotlin = "2.4.10"
+# Kotlin намеренно 2.3.x, а не 2.4.x: AGP 9.2.1 при инициализации встроенного Kotlin
+# зовёт KotlinBaseApiPlugin из KGP в класспуте, и KGP 2.4.10 отвечает классом KotlinAndroidTarget
+# со ссылкой на выпиленный в AGP 9 BaseVariant → NoClassDefFoundError (прогон CI №4).
+# Связка AGP 9.2.1 + Kotlin 2.3.21 + CMP 1.11.1 проверена в бою (compose-graph).
+kotlin = "2.3.21"
 coroutines = "1.11.0"
 
 # ⚠️ TODO(Saburjon): версии ниже НЕ сверены с индексом — репозиторий Google (dl.google.com)
