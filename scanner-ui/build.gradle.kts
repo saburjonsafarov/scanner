@@ -1,10 +1,8 @@
-// ⚠️ Модуль НЕ СОБРАН: Compose Multiplatform тянет AndroidX с dl.google.com, а окружение, в котором
-// писался код, этот хост не пропускает. Первая сборка — на машине владельца.
-import org.jetbrains.kotlin.gradle.dsl.JvmTarget
 
 plugins {
     alias(libs.plugins.kotlin.multiplatform)
-    alias(libs.plugins.android.library)
+    // KMP-вариант Android-плагина — см. комментарий в scanner-camera.
+    alias(libs.plugins.android.kmp.library)
     alias(libs.plugins.compose.multiplatform)
     alias(libs.plugins.kotlin.compose)
     `maven-publish`
@@ -13,11 +11,10 @@ plugins {
 kotlin {
     explicitApi()
 
-    androidTarget {
-        compilerOptions { jvmTarget.set(JvmTarget.JVM_17) }
-        // Без этого androidTarget не попадает в публикацию вовсе — KMP публикует только
-        // явно выбранные варианты Android-библиотеки.
-        publishLibraryVariants("release")
+    androidLibrary {
+        namespace = "com.ssh.scanner.ui"
+        compileSdk = 36
+        minSdk = 24
     }
     // iosX64 намеренно нет: Compose Multiplatform 1.11 его не публикует.
     iosArm64()
@@ -41,19 +38,5 @@ kotlin {
             // ContextCompat: полагаться на транзитив от CameraX нельзя — уедет при первом бампе.
             implementation(libs.androidx.core.ktx)
         }
-    }
-}
-
-android {
-    namespace = "com.ssh.scanner.ui"
-    compileSdk = 36
-
-    defaultConfig {
-        minSdk = 24
-    }
-
-    compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_17
-        targetCompatibility = JavaVersion.VERSION_17
     }
 }
