@@ -52,7 +52,7 @@ jobs:
 
       - name: Отчёт о тестах при падении
         if: failure()
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         with:
           name: core-test-report
           path: scanner-core/build/reports/tests/
@@ -126,14 +126,14 @@ jobs:
 
       - name: Отчёт о тестах при падении
         if: failure()
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         with:
           name: ios-test-report
           path: scanner-core/build/reports/tests/
           if-no-files-found: ignore
           retention-days: 7
 
-      - uses: actions/upload-artifact@v4
+      - uses: actions/upload-artifact@v7
         with:
           name: ScannerCore-xcframework
           path: scanner-core/build/XCFrameworks/release/
