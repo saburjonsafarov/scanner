@@ -60,7 +60,7 @@ jobs:
           retention-days: 7
 
   android:
-    name: Android (release-библиотеки)
+    name: Android (компиляция библиотек)
     runs-on: ubuntu-latest
     needs: core
     steps:
@@ -76,13 +76,15 @@ jobs:
       # Android SDK предустановлен на GitHub-hosted ubuntu-раннерах; ставить его руками
       # нужно только на self-hosted и на macOS (урок lessons-ci + arm64-образы без SDK).
       #
-      # Собираются release-варианты библиотек: публикуются именно они. Сэмпл в CI
-      # не собирается (-Pscanner.withSample=false) — причина в settings.gradle.kts.
-      - name: Сборка release-библиотек
+      # Имена тасок — из живого лога прогона №7: у com.android.kotlin.multiplatform.library
+      # один вариант, и таска компиляции зовётся compileAndroidMain (вариантных assembleRelease
+      # у него не существует). Полную сборку AAR и публикацию проверяет macos-смоук.
+      # Сэмпл в CI не собирается (-Pscanner.withSample=false) — причина в settings.gradle.kts.
+      - name: Компиляция Android-библиотек
         run: >
           ./gradlew -Pscanner.withSample=false
-          :scanner-camera:assembleRelease
-          :scanner-ui:assembleRelease
+          :scanner-camera:compileAndroidMain
+          :scanner-ui:compileAndroidMain
           --stacktrace
 
   ios:
