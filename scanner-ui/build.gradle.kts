@@ -13,7 +13,8 @@ kotlin {
 
     androidLibrary {
         namespace = "com.ssh.scanner.ui"
-        compileSdk = 36
+        // 37 — требование androidx.lifecycle 2.11.0 (проверка AAR-метаданных, прогон CI №7).
+        compileSdk = 37
         minSdk = 24
     }
     // iosX64 намеренно нет: Compose Multiplatform 1.11 его не публикует.
