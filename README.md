@@ -74,7 +74,8 @@ ScannerView(config = ScannerConfig(targets = setOf(ScanTarget.QrCode))) { result
 
 Сэмпл — самостоятельный проект: в Android Studio открывается каталог `sample-android`,
 а не корень (на AGP 9 app-модуль со встроенным Kotlin не живёт в одном билде
-с KMP-библиотеками — подробности в `sample-android/settings.gradle.kts`).
+с KMP-библиотеками — подробности в `sample-android/settings.gradle.kts`). Готовый
+debug-APK лежит артефактом `sample-debug-apk` в каждом зелёном прогоне CI.
 
 Гейт `-Pscanner.targets=core` оставляет в сборке одно ядро на JVM: оно не зависит ни от Android
 SDK, ни от репозитория Google, поэтому тесты гоняются в любом окружении, включая CI без Android.

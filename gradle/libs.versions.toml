@@ -16,6 +16,10 @@ androidxCore = "1.16.0"
 # Сверено с Maven Central 11.08.2026 (JetBrains-редистрибуция для Compose Multiplatform).
 jetbrainsLifecycle = "2.11.0"
 
+# material3 версионируется отдельно от Compose MP (1.11.1 у него не существует — проверено
+# по индексу Central 12.08.2026); стабильная линия — 1.9.x.
+cmpMaterial3 = "1.9.0"
+
 [libraries]
 coroutines-core = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-core", version.ref = "coroutines" }
 coroutines-test = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-test", version.ref = "coroutines" }
@@ -27,6 +31,10 @@ androidx-camera-view = { module = "androidx.camera:camera-view", version.ref = "
 androidx-activity-compose = { module = "androidx.activity:activity-compose", version.ref = "androidxActivity" }
 androidx-core-ktx = { module = "androidx.core:core-ktx", version.ref = "androidxCore" }
 jetbrains-lifecycle-runtime-compose = { module = "org.jetbrains.androidx.lifecycle:lifecycle-runtime-compose", version.ref = "jetbrainsLifecycle" }
+jetbrains-compose-runtime = { module = "org.jetbrains.compose.runtime:runtime", version.ref = "composeMultiplatform" }
+jetbrains-compose-foundation = { module = "org.jetbrains.compose.foundation:foundation", version.ref = "composeMultiplatform" }
+jetbrains-compose-ui = { module = "org.jetbrains.compose.ui:ui", version.ref = "composeMultiplatform" }
+jetbrains-compose-material3 = { module = "org.jetbrains.compose.material3:material3", version.ref = "cmpMaterial3" }
 
 [plugins]
 kotlin-multiplatform = { id = "org.jetbrains.kotlin.multiplatform", version.ref = "kotlin" }
