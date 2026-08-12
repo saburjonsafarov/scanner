@@ -48,5 +48,13 @@ include(":scanner-core")
 if ((providers.gradleProperty("scanner.targets").orNull ?: "all") == "all") {
     include(":scanner-camera")
     include(":scanner-ui")
-    include(":sample-android")
+
+    // Сэмпл не участвует в CI-сборке (-Pscanner.withSample=false) из-за конфликта AGP 9:
+    // библиотекам нужен KGP в корневом класслоадере (иначе общий build-сервис KGP падает
+    // между модулями), а app-модуль со встроенным Kotlin AGP 9, увидев внешний KGP,
+    // инициализирует его классом со ссылкой на выпиленный BaseVariant и роняет конфигурацию.
+    // Обе стороны сразу совместить нельзя — сэмпл собирается локально, где он и нужен.
+    if ((providers.gradleProperty("scanner.withSample").orNull ?: "true") == "true") {
+        include(":sample-android")
+    }
 }
