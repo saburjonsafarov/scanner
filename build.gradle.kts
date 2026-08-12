@@ -1,6 +1,17 @@
-// Плагины намеренно не объявляются здесь даже с `apply false`: объявление в корне заставляет
-// Gradle резолвить их при любой сборке, а AGP и Compose недоступны, когда собирается только ядро
-// (-Pscanner.targets=core). Каждый модуль подключает то, что ему нужно, сам.
+// В корне объявлен РОВНО один плагин, и это выверено тремя красными прогонами CI:
+//
+// - KGP обязан быть здесь: без него Gradle поднимает KGP отдельным класслоадером на каждый
+//   уникальный набор плагинов модуля, и общий build-сервис KGP падает ClassCastException
+//   «SwiftPMLockTaskAggregationBuildService … cannot be cast to …» (прогон №3).
+// - AGP и Compose-плагинов здесь быть НЕ должно: корневой лоадер не видит дочерние, поэтому
+//   CMP-плагин из корня не находит классы AGP, живущего в лоадере модуля, —
+//   ClassNotFoundException «KotlinMultiplatformAndroidComponentsExtension» (прогон №6).
+//   CMP живёт только в scanner-ui и сэмпле: один модульный лоадер, где видны и KGP (родитель),
+//   и AGP (сосед по classpath). AGP вдобавок резолвится только с Google Maven, а гейт
+//   -Pscanner.targets=core обязан конфигурироваться без него.
+plugins {
+    alias(libs.plugins.kotlin.multiplatform) apply false
+}
 
 allprojects {
     group = "com.ssh.scanner"
