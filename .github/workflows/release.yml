@@ -62,19 +62,19 @@ jobs:
       # а не соседняя конфигурация под другим гейтом.
       - name: Тесты перед публикацией
         run: >
-          ./gradlew -Pscanner.withSample=false
+          ./gradlew
           :scanner-core:jvmTest
           :scanner-core:iosSimulatorArm64Test
           "-Pscanner.version=$SCANNER_VERSION"
           --stacktrace
 
       - name: Сборка XCFramework
-        run: ./gradlew -Pscanner.withSample=false :scanner-core:assembleScannerCoreReleaseXCFramework "-Pscanner.version=$SCANNER_VERSION" --stacktrace
+        run: ./gradlew :scanner-core:assembleScannerCoreReleaseXCFramework "-Pscanner.version=$SCANNER_VERSION" --stacktrace
 
       - name: Публикация в GitHub Packages
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        run: ./gradlew -Pscanner.withSample=false publish "-Pscanner.version=$SCANNER_VERSION" --stacktrace
+        run: ./gradlew publish "-Pscanner.version=$SCANNER_VERSION" --stacktrace
 
       - name: GitHub Release с XCFramework
         env:

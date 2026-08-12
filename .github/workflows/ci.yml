@@ -79,10 +79,10 @@ jobs:
       # Имена тасок — из живого лога прогона №7: у com.android.kotlin.multiplatform.library
       # один вариант, и таска компиляции зовётся compileAndroidMain (вариантных assembleRelease
       # у него не существует). Полную сборку AAR и публикацию проверяет macos-смоук.
-      # Сэмпл в CI не собирается (-Pscanner.withSample=false) — причина в settings.gradle.kts.
+      # Сэмпл — отдельный композитный билд (sample-android/settings.gradle.kts), в CI не участвует.
       - name: Компиляция Android-библиотек
         run: >
-          ./gradlew -Pscanner.withSample=false
+          ./gradlew
           :scanner-camera:compileAndroidMain
           :scanner-ui:compileAndroidMain
           --stacktrace
@@ -107,22 +107,22 @@ jobs:
       - uses: gradle/actions/setup-gradle@v4
 
       - name: Тесты ядра на iOS-симуляторе
-        run: ./gradlew -Pscanner.withSample=false :scanner-core:iosSimulatorArm64Test --stacktrace
+        run: ./gradlew :scanner-core:iosSimulatorArm64Test --stacktrace
 
       - name: iOS-компиляция camera и ui
         run: >
-          ./gradlew -Pscanner.withSample=false
+          ./gradlew
           :scanner-camera:compileKotlinIosSimulatorArm64
           :scanner-ui:compileKotlinIosSimulatorArm64
           --stacktrace
 
       - name: Сборка XCFramework
-        run: ./gradlew -Pscanner.withSample=false :scanner-core:assembleScannerCoreReleaseXCFramework --stacktrace
+        run: ./gradlew :scanner-core:assembleScannerCoreReleaseXCFramework --stacktrace
 
       # Смоук релизного пути: та же публикация, что и на теге, только в локальный каталог.
       # Ловит "модуль без maven-publish", битые POM и несобираемые klib'ы до релиза.
       - name: Смоук публикации (publishToMavenLocal)
-        run: ./gradlew -Pscanner.withSample=false publishToMavenLocal --stacktrace
+        run: ./gradlew publishToMavenLocal --stacktrace
 
       - name: Отчёт о тестах при падении
         if: failure()

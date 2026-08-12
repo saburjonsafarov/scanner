@@ -67,9 +67,14 @@ ScannerView(config = ScannerConfig(targets = setOf(ScanTarget.QrCode))) { result
 ## Сборка
 
 ```bash
-./gradlew build                              # всё; нужен Android SDK, для iOS — macOS
+./gradlew build                              # библиотеки; нужен Android SDK, для iOS — macOS
 ./gradlew -Pscanner.targets=core :scanner-core:jvmTest   # только ядро, где угодно
+./gradlew -p sample-android assembleDebug    # демо-приложение (отдельный композитный билд)
 ```
+
+Сэмпл — самостоятельный проект: в Android Studio открывается каталог `sample-android`,
+а не корень (на AGP 9 app-модуль со встроенным Kotlin не живёт в одном билде
+с KMP-библиотеками — подробности в `sample-android/settings.gradle.kts`).
 
 Гейт `-Pscanner.targets=core` оставляет в сборке одно ядро на JVM: оно не зависит ни от Android
 SDK, ни от репозитория Google, поэтому тесты гоняются в любом окружении, включая CI без Android.

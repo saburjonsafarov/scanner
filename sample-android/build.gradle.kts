@@ -1,9 +1,5 @@
-// Сэмпл — чистый Android-модуль, НЕ Kotlin Multiplatform.
-//
-// Это не упрощение, а требование AGP 9: Kotlin в нём встроен, и связка
-// `com.android.application` + `org.jetbrains.kotlin.multiplatform` падает на конфигурации
-// (ClassCastException в AgpWithBuiltInKotlinAppliedCheck — поймано первым прогоном CI).
-// Compose-зависимости остаются через DSL плагина Compose Multiplatform.
+// Сэмпл — чистый Android-модуль и ОТДЕЛЬНЫЙ билд (см. settings.gradle.kts рядом).
+// Открывать его в IDE как самостоятельный проект: File → Open → каталог sample-android.
 plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.compose)
@@ -19,7 +15,7 @@ android {
         minSdk = 24
         targetSdk = 36
         versionCode = 1
-        versionName = project.version.toString()
+        versionName = "0.1.0"
     }
 
     compileOptions {
@@ -29,7 +25,8 @@ android {
 }
 
 dependencies {
-    implementation(project(":scanner-ui"))
+    // Версию подменяет композитный билд — важны только координаты.
+    implementation("com.ssh.scanner:scanner-ui:0.1.0-SNAPSHOT")
     implementation(compose.runtime)
     implementation(compose.foundation)
     implementation(compose.material3)
