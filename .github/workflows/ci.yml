@@ -102,7 +102,7 @@ jobs:
       # На macOS arm64-образах GitHub нет Android SDK, а конфигурация проекта тянет AGP
       # (scanner-camera/ui/sample) — без SDK джоба падает ещё до iOS-тасок.
       # TODO(Saburjon): запинить по SHA вместе с остальными экшенами.
-      - uses: android-actions/setup-android@v3
+      - uses: android-actions/setup-android@v4
 
       - uses: gradle/actions/setup-gradle@v4
 

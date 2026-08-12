@@ -41,7 +41,7 @@ jobs:
           java-version: 21
 
       # На macOS arm64-образах GitHub нет Android SDK, а publish собирает и Android-модули.
-      - uses: android-actions/setup-android@v3
+      - uses: android-actions/setup-android@v4
 
       - uses: gradle/actions/setup-gradle@v4
 
