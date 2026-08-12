@@ -1,21 +1,20 @@
-// ⚠️ Модуль НЕ СОБРАН: писался в окружении без Android SDK и без доступа к репозиторию Google.
-// Первая сборка — на машине с Android-тулчейном.
-import org.jetbrains.kotlin.gradle.dsl.JvmTarget
 
 plugins {
     alias(libs.plugins.kotlin.multiplatform)
-    alias(libs.plugins.android.library)
+    // Именно KMP-вариант Android-плагина: обычный com.android.library несовместим
+    // с kotlin.multiplatform начиная с AGP 9.0 (поймано прогоном CI №2).
+    alias(libs.plugins.android.kmp.library)
     `maven-publish`
 }
 
 kotlin {
     explicitApi()
 
-    androidTarget {
-        compilerOptions { jvmTarget.set(JvmTarget.JVM_17) }
-        // Без этого androidTarget не попадает в публикацию вовсе — KMP публикует только
-        // явно выбранные варианты Android-библиотеки.
-        publishLibraryVariants("release")
+    androidLibrary {
+        namespace = "com.ssh.scanner.camera"
+        // 37 — требование androidx.lifecycle 2.11.0 (проверка AAR-метаданных, прогон CI №7).
+        compileSdk = 37
+        minSdk = 24
     }
     iosArm64()
     iosSimulatorArm64()
@@ -30,19 +29,5 @@ kotlin {
             implementation(libs.androidx.camera.camera2)
             implementation(libs.androidx.camera.lifecycle)
         }
-    }
-}
-
-android {
-    namespace = "com.ssh.scanner.camera"
-    compileSdk = 36
-
-    defaultConfig {
-        minSdk = 24
-    }
-
-    compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_17
-        targetCompatibility = JavaVersion.VERSION_17
     }
 }
