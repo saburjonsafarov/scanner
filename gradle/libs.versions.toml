@@ -3,7 +3,7 @@
 # зовёт KotlinBaseApiPlugin из KGP в класспуте, и KGP 2.4.10 отвечает классом KotlinAndroidTarget
 # со ссылкой на выпиленный в AGP 9 BaseVariant → NoClassDefFoundError (прогон CI №4).
 # Связка AGP 9.2.1 + Kotlin 2.3.21 + CMP 1.11.1 проверена в бою (compose-graph).
-kotlin = "2.3.21"
+kotlin = "2.4.10"
 coroutines = "1.11.0"
 
 # Версии подтверждены фактом: резолв и сборка прошли в CI (прогоны №5–№7, август 2026).
