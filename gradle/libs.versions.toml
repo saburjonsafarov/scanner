@@ -7,7 +7,7 @@ kotlin = "2.3.21"
 coroutines = "1.11.0"
 
 # Версии подтверждены фактом: резолв и сборка прошли в CI (прогоны №5–№7, август 2026).
-agp = "9.2.1"
+agp = "9.4.1"
 composeMultiplatform = "1.11.1"
 androidxCamera = "1.4.2"
 androidxActivity = "1.11.0"
