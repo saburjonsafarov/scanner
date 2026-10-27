@@ -11,7 +11,7 @@ agp = "9.2.1"
 composeMultiplatform = "1.11.1"
 androidxCamera = "1.4.2"
 androidxActivity = "1.11.0"
-androidxCore = "1.16.0"
+androidxCore = "1.19.1"
 
 # Сверено с Maven Central 11.08.2026 (JetBrains-редистрибуция для Compose Multiplatform).
 jetbrainsLifecycle = "2.11.0"
